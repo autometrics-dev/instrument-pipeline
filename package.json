@@ -1,20 +1,34 @@
 {
-  "name": "am-action",
+  "name": "instrument-pipeline",
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "ncc build src/main.ts -o main && ncc build src/post.ts -o post",
+    "test": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actualwitch/am-action.git"
+    "url": "git+https://github.com/autometrics-dev/instrument-pipeline.git"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "Fiberplane<info@fiberplane.com>",
+  "license": "MIT or Apache-2.0",
+  "contributors": [
+    "Ade Telezhnikova"
+  ],
   "bugs": {
-    "url": "https://github.com/actualwitch/am-action/issues"
+    "url": "https://github.com/autometrics-dev/instrument-pipeline/issues"
   },
-  "homepage": "https://github.com/actualwitch/am-action#readme"
+  "homepage": "https://github.com/autometrics-dev/instrument-pipeline#readme",
+  "dependencies": {
+    "@opentelemetry/exporter-prometheus": "^0.40.0",
+    "@opentelemetry/sdk-metrics": "^1.14.0",
+    "node-fetch": "^3.3.1"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.1",
+    "@types/node": "^20.4.1",
+    "@vercel/ncc": "^0.36.1",
+    "typescript": "^5.1.6"
+  }
 }

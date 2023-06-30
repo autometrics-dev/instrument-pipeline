@@ -1,0 +1,19 @@
+# This workflow will be triggered by a GitHub pull-request.
+---
+name: Run the action from current repo
+
+on: [push]
+jobs:
+  simulate-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm install
+      - run: npm run build
+      - uses: ./
+        with:
+          pushgateway: "http://pushgateway.shiran.ai/metrics"
+      - run: node scripts/simulate-build.js

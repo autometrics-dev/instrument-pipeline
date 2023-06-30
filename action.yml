@@ -1,0 +1,11 @@
+name: "instrument-pipeline-action"
+description: ""
+author: "Fiberplane<info@fiberplane.com>"
+inputs:
+  pushgateway:
+    required: true
+    description: "Full URL to the aggregation gateway (like zapier's)"
+runs:
+  using: "node16"
+  main: "main/index.js"
+  post: "post/index.js"

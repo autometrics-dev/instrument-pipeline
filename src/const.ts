@@ -1,0 +1,1 @@
+export const TMP_VAR_NAME = "AUTOMETRICS_START";
