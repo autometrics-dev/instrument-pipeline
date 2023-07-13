@@ -1,28 +1,69 @@
 import { PrometheusSerializer } from "@opentelemetry/exporter-prometheus";
 import {
   AggregationTemporality,
+  ExplicitBucketHistogramAggregation,
   InMemoryMetricExporter,
   MeterProvider,
   PeriodicExportingMetricReader,
+  HistogramAggregation,
+  InstrumentType,
+  View,
 } from "@opentelemetry/sdk-metrics";
 import fetch from "node-fetch";
 
 import { TMP_VAR_NAME } from "./const.js";
 
-const exporter = new PeriodicExportingMetricReader({
-  // 0 - using delta aggregation temporality setting
-  // to ensure data submitted to the gateway is accurate
-  exporter: new InMemoryMetricExporter(AggregationTemporality.DELTA),
-});
+const buckets = getBuckets();
+const { exporter, histogram, counter } = init(buckets);
 
-const autometricsMeterProvider = new MeterProvider();
-autometricsMeterProvider.addMetricReader(exporter);
+function init(buckets?: number[]) {
+  const exporter = new PeriodicExportingMetricReader({
+    // 0 - using delta aggregation temporality setting
+    // to ensure data submitted to the gateway is accurate
+    exporter: new InMemoryMetricExporter(AggregationTemporality.DELTA),
+  });
 
-const meter = autometricsMeterProvider.getMeter("autometrics");
-const histogram = meter.createHistogram("workflow.jobs.duration");
-const counter = meter.createCounter("workflow.jobs.count");
+  const histogramView = new View({
+    aggregation: buckets
+      ? new ExplicitBucketHistogramAggregation(buckets)
+      : new HistogramAggregation(),
+    instrumentName: "workflow.jobs.duration",
+    instrumentType: InstrumentType.HISTOGRAM,
+  });
 
-export const trackJob = (duration: number) => {
+  const autometricsMeterProvider = new MeterProvider({
+    views: [histogramView],
+  });
+  autometricsMeterProvider.addMetricReader(exporter);
+
+  const meter = autometricsMeterProvider.getMeter("autometrics");
+  const histogram = meter.createHistogram("workflow.jobs.duration", {
+    unit: "seconds",
+  });
+  const counter = meter.createCounter("workflow.jobs.count");
+  return { exporter, histogram, counter };
+}
+
+function getBuckets() {
+  let buckets = process.env.INPUT_BUCKETS;
+  if (!buckets) return;
+  if (buckets.startsWith("[") && buckets.endsWith("]")) {
+    buckets = buckets.slice(1, -1);
+  }
+
+  return buckets
+    .trim()
+    .split(",")
+    .map((b) => {
+      const n = Number(b);
+      if (isNaN(n)) {
+        throw new Error(`Invalid bucket value: ${b}`);
+      }
+      return n;
+    });
+}
+
+export function trackJob(duration: number) {
   const labels = {
     workflow: process.env.GITHUB_WORKFLOW,
     job: process.env.GITHUB_JOB,
@@ -30,7 +71,7 @@ export const trackJob = (duration: number) => {
   histogram.record(duration, labels);
   counter.add(1, labels);
   pushToGateway(process.env.INPUT_PUSHGATEWAY);
-};
+}
 
 async function pushToGateway(gateway: string) {
   const exporterResponse = await exporter.collect();

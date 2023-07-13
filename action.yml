@@ -1,11 +1,17 @@
-name: "instrument-pipeline-action"
-description: ""
-author: "Fiberplane<info@fiberplane.com>"
+name: "Instrument pipeline"
+description: "Export job execution metrics to a Prometheus aggregation gateway"
+author: "autometrics-dev"
+branding:
+  icon: "clock"
+  color: "purple"
 inputs:
   pushgateway:
     required: true
-    description: "Full URL to the aggregation gateway (like zapier's)"
+    description: "Full URL to the aggregation gateway (like zapier's), including the /metrics suffix"
+  buckets:
+    required: false
+    description: "Comma separated list of buckets for duration histogram, with or without the brackets []"
 runs:
   using: "node16"
-  main: "main/index.js"
-  post: "post/index.js"
+  main: "main.js"
+  post: "post.js"

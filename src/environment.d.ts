@@ -4,6 +4,7 @@ declare global {
       GITHUB_WORKFLOW: string;
       GITHUB_JOB: string;
       INPUT_PUSHGATEWAY: string;
+      INPUT_BUCKETS?: string;
       GITHUB_STATE: string;
     }
   }
