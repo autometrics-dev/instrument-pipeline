@@ -1,0 +1,13 @@
+changelog:
+  categories:
+    - title: 💥
+      labels:
+        - Semver-Major
+    - title: 🛠️
+      labels:
+        - Semver-Minor
+    - title: 🪲
+      labels:
+        - Semver-Patch
+    - title: 🤔
+        - "*"

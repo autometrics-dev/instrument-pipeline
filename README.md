@@ -11,13 +11,23 @@ Just add the action as a step to your job, and provide the url of the prometheus
 steps:
   - uses: autometrics-dev/instrument-pipeline@v1
     with:
-      pushgateway: "http://pushgateway.example.com/metrics"
+      pushgateway: http://pushgateway.example.com/metrics
   - uses: actions/checkout@v3
   - uses: actions/setup-node@v3
     with:
-      node-version: "20"
+      node-version: 20
   - run: npm install
   - run: npm run build
 ```
 
 Now every time the action runs, it will send the duration (and increase the run counter) of the run to the aggregation gateway.
+
+## Inputs
+
+### `pushgateway`
+
+**Required** The url of the prometheus aggregation gateway, with the `/metrics` endpoint.
+
+### `buckets`
+
+Array of buckets to use for the histogram. For example, `[0, 1, 2, 5, 10, +Infinity]`.
