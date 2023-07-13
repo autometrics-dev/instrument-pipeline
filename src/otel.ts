@@ -18,7 +18,7 @@ const exporter = new PeriodicExportingMetricReader({
 const autometricsMeterProvider = new MeterProvider();
 autometricsMeterProvider.addMetricReader(exporter);
 
-const meter = autometricsMeterProvider.getMeter("am-action");
+const meter = autometricsMeterProvider.getMeter("autometrics");
 const histogram = meter.createHistogram("workflow.jobs.duration");
 const counter = meter.createCounter("workflow.jobs.count");
 
