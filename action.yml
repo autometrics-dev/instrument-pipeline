@@ -13,5 +13,5 @@ inputs:
     description: "Comma separated list of buckets for duration histogram, with or without the brackets []"
 runs:
   using: "node16"
-  main: "main.js"
-  post: "post.js"
+  main: "main/index.js"
+  post: "post/index.js"

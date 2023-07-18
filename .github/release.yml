@@ -1,13 +1,13 @@
 changelog:
   categories:
-    - title: 💥
+    - title: 💥 Breaking Changes
       labels:
         - Semver-Major
-    - title: 🛠️
+    - title: 🛠️ Improvements
       labels:
         - Semver-Minor
-    - title: 🪲
+    - title: 🪲 Bug Fixes
       labels:
         - Semver-Patch
-    - title: 🤔
+    - title: 🤔 Unlabeled
         - "*"

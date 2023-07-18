@@ -9,7 +9,7 @@ Just add the action as a step to your job, and provide the url of the prometheus
 
 ```yaml
 steps:
-  - uses: autometrics-dev/instrument-pipeline@v1
+  - uses: autometrics-dev/instrument-pipeline@v0
     with:
       pushgateway: http://pushgateway.example.com/metrics
   - uses: actions/checkout@v3
