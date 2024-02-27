@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  gravel:
+    container_name: gravel
+    image: sinkingpoint/prometheus-gravel-gateway
+    ports:
+      - "4278:4278"
+  prom:
+    container_name: prom
+    image: prom/pushgateway
+    ports:
+      - "9091:9091"
+  zapier:
+    container_name: zapier
+    image: ghcr.io/zapier/prom-aggregation-gateway:latest
+    ports:
+      - "80:80"

@@ -3,9 +3,10 @@ declare global {
     interface ProcessEnv {
       GITHUB_WORKFLOW: string;
       GITHUB_JOB: string;
-      INPUT_PUSHGATEWAY: string;
-      INPUT_BUCKETS?: string;
       GITHUB_STATE: string;
+      INPUT_BUCKETS?: string;
+      INPUT_PUSHGATEWAY: string;
+      INPUT_GATEWAYTYPE?: string;
     }
   }
 }

@@ -1,6 +1,13 @@
-import { getTmpVarName, trackJob } from "./otel";
+import { performance } from "perf_hooks";
 
-const start = Number(process.env[getTmpVarName()]);
-const duration = new Date().valueOf() - start;
+import { TMP_VAR_GITHUB_NAME } from "./metrics/const.js";
+import { trackJob } from "./metrics/index.js";
+
+const value = process.env[TMP_VAR_GITHUB_NAME];
+if (!value) {
+  throw new Error("Could not retrieve start timestamp from previous stage");
+}
+const start = Number(value);
+const duration = performance.now() - start;
 // we track the job duration in seconds
 trackJob(duration / 1000);

@@ -1,0 +1,20 @@
+name: Test action
+
+on:
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: isbang/compose-action@v1.5.1
+      - name: Build
+        run: npm run tsc
+      - name: Test prometheus push gateway
+        run: GITHUB_WORKFLOW=workflow GITHUB_JOB=job INPUT_PUSHGATEWAY='http://localhost:9091' INPUT_GATEWAYTYPE=prometheus node dist/test.js
+      - name: Test zapier push gateway
+        run: GITHUB_WORKFLOW=workflow GITHUB_JOB=job INPUT_PUSHGATEWAY='http://localhost' node dist/test.js
+      - name: Test gravel push gateway
+        run: GITHUB_WORKFLOW=workflow GITHUB_JOB=job INPUT_PUSHGATEWAY='http://localhost:4278' INPUT_GATEWAYTYPE=gravel node dist/test.js
