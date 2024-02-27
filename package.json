@@ -7,7 +7,7 @@
     "build": "npx concurrently -- \"npm run build:main\" \"npm run build:post\"",
     "build:main": "ncc build src/main.ts -o main",
     "build:post": "ncc build src/post.ts -o post",
-    "tsc": "tsc"
+    "build:test": "ncc build src/test.ts -o test"
   },
   "repository": {
     "type": "git",
