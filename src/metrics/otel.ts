@@ -43,26 +43,21 @@ export function init(buckets?: number[]) {
 }
 
 export async function pushToGateway(exporter: PeriodicExportingMetricReader) {
-  try {
-    const exporterResponse = await exporter.collect();
-    const serialized = new PrometheusSerializer().serialize(
-      exporterResponse.resourceMetrics
-    );
-    const url = getMetricsUrl();
-  
-    const response = await fetch(url, {
-      method: "POST",
-      body: serialized,
-    });
-    if (response.status < 200 || response.status >= 300) {
-      const text = await response.text();
-      throw new Error(`Failed to push to gateway: ${response.status} ${text}`);
-    }
-    console.log("Metrics successfully pushed to gateway");
-    // we flush the metrics at the end of the submission to ensure the data is not repeated
-    await exporter.forceFlush();
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
+  const exporterResponse = await exporter.collect();
+  const serialized = new PrometheusSerializer().serialize(
+    exporterResponse.resourceMetrics
+  );
+  const url = getMetricsUrl();
+
+  const response = await fetch(url, {
+    method: "POST",
+    body: serialized,
+  });
+  if (response.status < 200 || response.status >= 300) {
+    const text = await response.text();
+    throw new Error(`Failed to push to gateway: ${response.status} ${text}`);
   }
+  console.log("Metrics successfully pushed to gateway");
+  // we flush the metrics at the end of the submission to ensure the data is not repeated
+  await exporter.forceFlush();
 }

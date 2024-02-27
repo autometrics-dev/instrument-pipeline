@@ -7,10 +7,10 @@ branding:
 inputs:
   pushgateway:
     required: true
-    description: "Full URL to the aggregation gateway, optionally including the /metrics suffix"
+    description: "URL to the aggregation gateway, for example `http://localhost:9091`"
   gatewaytype:
     required: false
-    description: "Type of the aggregation gateway, one of 'prometheus', 'gravel', or 'zapier'. Uses 'zapier' by default"
+    description: "Type of the aggregation gateway, one of `prometheus`, `gravel`, or `zapier`. Currently only changes the url format in case of prometheus"
   buckets:
     required: false
     description: "Comma separated list of buckets for duration histogram, with or without the brackets []"
