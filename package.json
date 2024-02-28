@@ -1,6 +1,6 @@
 {
   "name": "instrument-pipeline",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Export job execution metrics to a Prometheus aggregation gateway",
   "type": "module",
   "scripts": {
