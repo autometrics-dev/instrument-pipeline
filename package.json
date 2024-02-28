@@ -7,7 +7,7 @@
     "build": "npx concurrently -- \"npm run build:main\" \"npm run build:post\"",
     "build:main": "ncc build src/main.ts -o main",
     "build:post": "ncc build src/post.ts -o post",
-    "test": "tsc"
+    "build:test": "ncc build src/test.ts -o test"
   },
   "repository": {
     "type": "git",
@@ -23,14 +23,14 @@
   },
   "homepage": "https://github.com/autometrics-dev/instrument-pipeline#readme",
   "dependencies": {
-    "@opentelemetry/exporter-prometheus": "^0.40.0",
-    "@opentelemetry/sdk-metrics": "^1.14.0",
-    "node-fetch": "^3.3.1"
+    "@opentelemetry/exporter-prometheus": "^0.48.0",
+    "@opentelemetry/sdk-metrics": "^1.21.0"
   },
   "devDependencies": {
-    "@tsconfig/strictest": "^2.0.1",
-    "@types/node": "^20.4.1",
-    "@vercel/ncc": "^0.36.1",
+    "@tsconfig/strictest": "^2.0.3",
+    "@types/node": "^20.11.22",
+    "@vercel/ncc": "^0.38.1",
+    "concurrently": "^8.2.2",
     "typescript": "next"
   }
 }
